@@ -1,0 +1,41 @@
+Sw = 73.73;
+St = 18.43;
+bw = 20.95;
+bt = 9.31;
+cw = 3.79;
+ct = 2.04;
+ARw = 5.93;
+ARt = 4.74;
+TRw = 0.377;
+TRt = 0.528;
+dw = 2*pi/180;
+dt = 0;
+gtw = -3*pi/180;
+gtt = 0;
+atw = -3.5*pi/180;
+att = 0;
+We = 13.434*0.45359237;
+Wp = 1000*0.45359237;
+Wf = 2000*0.45359237;
+W = (We+Wp+Wf)*9.81;
+alt = 5000;
+U = 100;
+[T, a, P, rho] = atmosisa(alt);
+T = 18454;
+Vh = 0.6722;
+lt = Vh*Sw*cw/St;
+aw = 0.1154;
+at = 0.1100;
+a = aw+at*St/Sw;
+e = 1;
+
+Cl = W/(0.5*rho*Sw*U^2);
+Cd = W/(0.5*rho*Sw*U^2);
+
+X_u = -rho*U*Sw*Cd;
+Z_u = -rho*U*Sw*Cl;
+M_u = 0;
+X_w = 0.5*rho*U*Sw*(-2*a*Cl/(pi*AR*e) + Cl);
+Z_w = -0.5*rho*U*Sw*(-a + Cd);
+% M_w = -0.5*rho*U*Sw*cw*(-Kn
+
