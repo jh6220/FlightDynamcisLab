@@ -7,7 +7,7 @@ clc
 close all
 
 %%%%%INSERT THE FILENAME HERE%%%%%
-fname = 'compRollCont.mat';
+fname = 'FlightDynLabPt1.mat';
 load(fname) %Load the file name
 
 %Extract all the data
