@@ -1,6 +1,5 @@
-% Thrust not taken into account, Cl of the aileron assumed from the moment
-% equalibrium without thrust
-
+% should IAS or TAS be used?
+g = 9.81;
 Sw = 73.73;
 St = 18.43;
 bw = 20.95;
@@ -22,7 +21,7 @@ Wp = 1.5029e+03*0.45359237*9.81;
 Wf = 5500*0.45359237*9.81;
 W = (We+Wp+Wf);
 alt = 3000; % meter
-U = convvel(200,'kts','m/s');
+U = convvel(223,'kts','m/s');
 [~, ~, P, rho] = atmosisa(alt);
 T = 18454;
 Vh = 0.6722;
@@ -93,20 +92,20 @@ Fs = [  X_u,    X_w,    X_q,    -m*9.81;
         0,      0,      1,      0];
 
 Y_v = 0.5*rho*U*Sw * -0.5772;
-L_v = 0.5*rho*U*Sw * -0.0723;
-N_v = 0.5*rho*U*Sw * 0.0773;
-Y_p = 0.5*rho*U*Sw * 0.0170;
-L_p = 0.5*rho*U*Sw * -0.2228;
-N_p = 0.5*rho*U*Sw * -0.0121;
-Y_r = 0.5*rho*U*Sw * 0.1312;
-L_r = 0.5*rho*U*Sw * 0.0782;
-N_r = 0.5*rho*U*Sw * -0.0645;
+L_v = 0.5*rho*U*Sw*bw * -0.0723;
+N_v = 0.5*rho*U*Sw*bw * 0.0773;
+Y_p = 0.5*rho*U*Sw*bw * 0.0170;
+L_p = 0.5*rho*U*Sw*bw^2 * -0.2228;
+N_p = 0.5*rho*U*Sw*bw^2 * -0.0121;
+Y_r = 0.5*rho*U*Sw*bw * 0.1312;
+L_r = 0.5*rho*U*Sw*bw^2 * 0.0782;
+N_r = 0.5*rho*U*Sw*bw^2 * -0.0645;
 Y_dA = 0.5*rho*U*Sw * 0.0000;
-L_dA = 0.5*rho*U*Sw * -0.0763;
-N_dA = 0.5*rho*U*Sw * 0.0000;
+L_dA = 0.5*rho*U*Sw*bw * -0.0763;
+N_dA = 0.5*rho*U*Sw*bw * 0.0000;
 Y_dR = 0.5*rho*U*Sw * 0.3090;
-L_dR = 0.5*rho*U*Sw * 0.0250;
-N_dR = 0.5*rho*U*Sw * -0.1117;
+L_dR = 0.5*rho*U*Sw*bw * 0.0250;
+N_dR = 0.5*rho*U*Sw*bw * -0.1117;
 
 Ma = [  m,      0,      0,      0,      0;
         0,      Ixx,    -Ixz,   0,      0;
@@ -120,5 +119,42 @@ Fa = [  Y_v,    Y_p,    Y_r-m*U,    m*9.81, 0;
         0,      1,      0,          0,      0;
         0,      0,      1,          0,      0];
 
+[vecs,vals] = eig(Ms\Fs);
+% for phugoid predicts non-oscilatory behaviour
 
+% disp(vals(1,1))
+
+% SPPO
+Msppo = [   m-Z_w_dot,     0;
+            -M_w_dot,       Iyy];
+Fsppo = [   Z_w,        Z_q+m*U;
+            M_w,        M_q];
+
+[vecsppo,valsppo] = eig(Msppo\Fsppo);
+
+% Phugoid
+Mph = [m,      -X_w_dot;
+       0,      m-Z_w_dot];
+Fph = [X_u,    X_w;
+       Z_u,    Z_w];
+
+[vecph,valph] = eig(Mph\Fph); % for phugoid predicts non-oscilatory behaviour
+
+gamma = -Z_w/m;
+delta = -X_w*Z_u/m^2;
+lambdaph = -gamma/2 + ([1,-1]*sqrt((gamma/2)^2 - 2*g^2/U^2)); % for phugoid predicts non-oscilatory behaviour
+
+% Assymetric
+[veca,vala] = eig(Ma\Fa);
+
+% Roll substidence
+lambda_roll = L_p/Ixx;
+
+% Spiral mode
+lambda_spiral = -g*(L_v*N_r-L_r*N_v)/(U*(L_v*N_p-L_p*N_v));
+
+% Dutch roll
+lambda_dr = 0.5*(N_r/Izz+Y_v/m) + [1,-1]*sqrt(0.25*(N_r/Izz+Y_v/m)^2 - (Y_v*N_r-Y_r*N_v)/(m*Izz) - (U*N_v)/Izz);
+
+lambda_dr2 = 0.5*(N_r/Izz+Y_v/m) + [1,-1]*sqrt(-U*N_v/Izz);
 
