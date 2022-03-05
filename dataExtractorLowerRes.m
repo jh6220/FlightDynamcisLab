@@ -7,9 +7,9 @@ clc
 close all
 
 %%%%%INSERT THE FILENAME HERE%%%%%
-fname = 'FlightDynLabPt1.mat';
+fname = 'sppo1.mat';
 load(fname) %Load the file name
-
+data = sppo1;
 %Extract all the data
 vInd_kias   = data.Data(1:100:end,1); %Indicated Airspeed - Knots
 vTrue_ktas  = data.Data(1:100:end,2); %true Airspeed      - Knots
