@@ -32,13 +32,17 @@ lT = 0.28; % Thurst line offset
 % aw = 0.1154;
 % at = 0.1100;
 % a = aw+at*St/Sw;
-a = 5.7422;
-e = 1.0124;
+% a = 5.7422;
+a = 0.065*180/pi;
+e = 0.96;
 alpha0 = 0;
 
 Cl = W/(0.5*rho*Sw*U^2);
 Cd = GetCd(Cl);
-[eta_a_H,x_np,Cm0] = GetParYear1();
+% [eta_a_H,x_np,Cm0] = GetParYear1();
+Cm0 = 0.055;
+x_np = 10.75;
+eta_a_H = 0.09;
 at = eta_a_H*180/pi;
 
 x_cg_zf = 10.14;
@@ -197,3 +201,7 @@ long.MiH = M_dE;
 long.Xt = X_T;
 long.Zt = Z_T;
 long.Mt = M_T;
+
+As = (m-Z_w_dot)*Iyy;
+Bs = -(m-Z_w_dot)*M_q - Iyy*Z_w - (Z_q+m*U)*M_w_dot;
+Cs = Z_w*M_q - (Z_q+m*U)*M_w;
