@@ -26,7 +26,7 @@ U = convvel(223,'kts','m/s');
 T = 18454;
 Vh = 0.6722;
 lt = Vh*Sw*cw/St;
-lt_dash = lt;
+lt_dash = lt+xw-x_cg;
 ht = 3.5;
 lT = 0.28; % Thurst line offset
 % aw = 0.1154;
@@ -42,17 +42,21 @@ Cd = GetCd(Cl);
 % [eta_a_H,x_np,Cm0] = GetParYear1();
 Cm0 = 0.055;
 x_np = 10.75;
-eta_a_H = 0.09;
+eta_a_H = 0.075;
 at = eta_a_H*180/pi;
+d_eta_d_alfa = 0.5;
+
+xw = x_np-Vh*cw*at*(1-eta_a_H)/a;
 
 x_cg_zf = 10.14;
 x_cg_f = 10.06;
 x_cg = (x_cg_zf*(Wp+We)+x_cg_f*Wf)/W;
 Kn = (x_np-x_cg)/cw;
-Clt = (Cm0-Kn*Cl)/Vh;
+Clt2 = (Cm0-Kn*Cl)/Vh;
+Clt = (Cm0-lT*Cd-(xw-x_cg)*Cl/cw)/Vh;
+
 Cdt0 = 0.00540; % for Re = 10^7
 Cdt = Cdt0 + Clt^2/(pi*ARt*1);
-d_eta_d_alfa = 1;
 
 X_u = -rho*U*Sw*Cd;
 Z_u = -rho*U*Sw*Cl;
@@ -171,7 +175,7 @@ M_dE = lt_dash*Z_dE - ht*X_dE;
 
 X_T = cos(alpha0);
 Z_T = -sin(alpha0);
-M_T = lT;
+M_T = -lT;
 
 % Longitudinal data for export
 long.m = m;

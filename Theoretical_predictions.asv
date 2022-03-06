@@ -42,8 +42,11 @@ Cd = GetCd(Cl);
 % [eta_a_H,x_np,Cm0] = GetParYear1();
 Cm0 = 0.055;
 x_np = 10.75;
-eta_a_H = 0.09;
+eta_a_H = 0.075;
 at = eta_a_H*180/pi;
+
+
+xw = x_cg-Vh*cw*at(1-eta_a_H)
 
 x_cg_zf = 10.14;
 x_cg_f = 10.06;
@@ -171,7 +174,7 @@ M_dE = lt_dash*Z_dE - ht*X_dE;
 
 X_T = cos(alpha0);
 Z_T = -sin(alpha0);
-M_T = lT;
+M_T = -lT;
 
 % Longitudinal data for export
 long.m = m;
