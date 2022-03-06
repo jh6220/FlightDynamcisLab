@@ -28,11 +28,13 @@ Vh = 0.6722;
 lt = Vh*Sw*cw/St;
 lt_dash = lt;
 ht = 3.5;
+lT = 0.28; % Thurst line offset
 % aw = 0.1154;
 % at = 0.1100;
 % a = aw+at*St/Sw;
 a = 5.7422;
 e = 1.0124;
+alpha0 = 0;
 
 Cl = W/(0.5*rho*Sw*U^2);
 Cd = GetCd(Cl);
@@ -44,7 +46,8 @@ x_cg_f = 10.06;
 x_cg = (x_cg_zf*(Wp+We)+x_cg_f*Wf)/W;
 Kn = (x_np-x_cg)/cw;
 Clt = (Cm0-Kn*Cl)/Vh;
-Cdt = 0.00540; % for Re = 10^7
+Cdt0 = 0.00540; % for Re = 10^7
+Cdt = Cdt0 + Clt^2/(pi*ARt*1);
 d_eta_d_alfa = 1;
 
 X_u = -rho*U*Sw*Cd;
@@ -55,12 +58,12 @@ X_w = 0.5*rho*U*Sw*(-2*a*Cl/(pi*ARw*e) + Cl);
 Z_w = -0.5*rho*U*Sw*(a + Cd);
 M_w = -0.5*rho*U*Sw*cw*Kn*a;
 
-X_w_h = 0.5*rho*U*St*(-2*eta_a_H*Clt/(pi*ARt*1) + Clt);
-Z_w_h = -0.5*rho*U*St*(eta_a_H + Cdt);
+X_w_h = 0.5*rho*U*St*(-2*at*Clt/(pi*ARt*1) + Clt);
+Z_w_h = -0.5*rho*U*St*(at + Cdt);
 
-X_q = 0.5*rho*U*St*lt_dash*(Clt - 2*eta_a_H*Clt/(pi*ARt*1));
-Z_q = -0.5*rho*U*St*lt_dash*(eta_a_H + Cdt);
-M_q = lt_dash^2*Z_w_h; - ht*lt_dash*X_w_h;
+X_q = 0.5*rho*U*St*lt_dash*(Clt - 2*at*Clt/(pi*ARt*1));
+Z_q = -0.5*rho*U*St*lt_dash*(at + Cdt);
+M_q = lt_dash^2*Z_w_h - ht*lt_dash*X_w_h;
 
 X_w_dot = lt*d_eta_d_alfa*X_w_h/U;
 Z_w_dot = lt*d_eta_d_alfa*Z_w_h/U;
@@ -158,3 +161,39 @@ lambda_dr = 0.5*(N_r/Izz+Y_v/m) + [1,-1]*sqrt(0.25*(N_r/Izz+Y_v/m)^2 - (Y_v*N_r-
 
 lambda_dr2 = 0.5*(N_r/Izz+Y_v/m) + [1,-1]*sqrt(-U*N_v/Izz);
 
+X_dE = -0.5*rho*U^2*St*(2*Clt*at/(pi*ARt*1));
+Z_dE = -0.5*rho*U^2*St*at;
+M_dE = lt_dash*Z_dE - ht*X_dE;
+
+X_T = cos(alpha0);
+Z_T = -sin(alpha0);
+M_T = lT;
+
+% Longitudinal data for export
+long.m = m;
+long.Iyy = Iyy;
+long.Ue = U;
+
+long.Xu = X_u;
+long.Zu = Z_u;
+long.Mu = M_u;
+
+long.Xw = X_w;
+long.Zw = Z_w;
+long.Mw = M_w;
+
+long.Xq = X_q;
+long.Zq = Z_q;
+long.Mq = M_q;
+
+long.Xwdot = X_w_dot;
+long.Zwdot = Z_w_dot;
+long.Mwdot = M_w_dot;
+
+long.XiH = X_dE;
+long.ZiH = Z_dE;
+long.MiH = M_dE;
+
+long.Xt = X_T;
+long.Zt = Z_T;
+long.Mt = M_T;
