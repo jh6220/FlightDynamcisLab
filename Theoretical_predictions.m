@@ -25,6 +25,9 @@ U = convvel(223,'kts','m/s');
 [~, ~, P, rho] = atmosisa(alt);
 T = 18454;
 Vh = 0.6722;
+
+xw = x_np-Vh*cw*at*(1-eta_a_H)/a; %Moved here!
+
 lt = Vh*Sw*cw/St;
 lt_dash = lt+xw-x_cg;
 ht = 3.5;
@@ -46,7 +49,7 @@ eta_a_H = 0.075;
 at = eta_a_H*180/pi;
 d_eta_d_alfa = 0.5;
 
-xw = x_np-Vh*cw*at*(1-eta_a_H)/a;
+
 
 x_cg_zf = 10.14;
 x_cg_f = 10.06;
