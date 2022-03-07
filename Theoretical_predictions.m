@@ -26,30 +26,20 @@ U = convvel(223,'kts','m/s');
 T = 18454;
 Vh = 0.6722;
 
-xw = x_np-Vh*cw*at*(1-eta_a_H)/a; %Moved here!
-
-lt = Vh*Sw*cw/St;
-lt_dash = lt+xw-x_cg;
-ht = 3.5;
-lT = 0.28; % Thurst line offset
-% aw = 0.1154;
-% at = 0.1100;
-% a = aw+at*St/Sw;
-% a = 5.7422;
-a = 0.065*180/pi;
-e = 0.96;
-alpha0 = 0;
-
 Cl = W/(0.5*rho*Sw*U^2);
 Cd = GetCd(Cl);
 % [eta_a_H,x_np,Cm0] = GetParYear1();
 Cm0 = 0.055;
-x_np = 10.75;
 eta_a_H = 0.075;
 at = eta_a_H*180/pi;
 d_eta_d_alfa = 0.5;
+a = 0.065*180/pi;
 
+x_np = 10.75;
+xw = x_np-Vh*cw*at*(1-eta_a_H)/a; %Moved here!
 
+ht = 3.5;
+lT = 0.28; % Thurst line offset
 
 x_cg_zf = 10.14;
 x_cg_f = 10.06;
@@ -57,6 +47,14 @@ x_cg = (x_cg_zf*(Wp+We)+x_cg_f*Wf)/W;
 Kn = (x_np-x_cg)/cw;
 Clt2 = (Cm0-Kn*Cl)/Vh;
 Clt = (Cm0-lT*Cd-(xw-x_cg)*Cl/cw)/Vh;
+
+lt = Vh*Sw*cw/St;
+lt_dash = lt+xw-x_cg;
+% aw = 0.1154;
+% at = 0.1100;
+% a = aw+at*St/Sw;
+e = 0.96;
+alpha0 = 0;
 
 Cdt0 = 0.00540; % for Re = 10^7
 Cdt = Cdt0 + Clt^2/(pi*ARt*1);
