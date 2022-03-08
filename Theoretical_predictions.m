@@ -1,4 +1,8 @@
-% should IAS or TAS be used?
+% Notes:
+% For PIDs all cotrol signal should be apropriatelly ofset such as the
+% equalibrium velue is not zero (thurst is not zero at equalibrium
+
+
 g = 9.81;
 Sw = 73.73;
 St = 18.43;
@@ -112,12 +116,12 @@ N_p = 0.5*rho*U*Sw*bw^2 * -0.0121;
 Y_r = 0.5*rho*U*Sw*bw * 0.1312;
 L_r = 0.5*rho*U*Sw*bw^2 * 0.0782;
 N_r = 0.5*rho*U*Sw*bw^2 * -0.0645;
-Y_dA = 0.5*rho*U*Sw * 0.0000;
-L_dA = 0.5*rho*U*Sw*bw * -0.0763;
-N_dA = 0.5*rho*U*Sw*bw * 0.0000;
-Y_dR = 0.5*rho*U*Sw * 0.3090;
-L_dR = 0.5*rho*U*Sw*bw * 0.0250;
-N_dR = 0.5*rho*U*Sw*bw * -0.1117;
+Y_dA = 0.5*rho*U^2*Sw * 0.0000;
+L_dA = 0.5*rho*U^2*Sw*bw * -0.0763;
+N_dA = 0.5*rho*U^2*Sw*bw * 0.0000;
+Y_dR = 0.5*rho*U^2*Sw * 0.3090;
+L_dR = 0.5*rho*U^2*Sw*bw * 0.0250;
+N_dR = 0.5*rho*U^2*Sw*bw * -0.1117;
 
 Ma = [  m,      0,      0,      0,      0;
         0,      Ixx,    -Ixz,   0,      0;
@@ -207,6 +211,23 @@ long.Xt = X_T;
 long.Zt = Z_T;
 long.Mt = M_T;
 
-As = (m-Z_w_dot)*Iyy;
-Bs = -(m-Z_w_dot)*M_q - Iyy*Z_w - (Z_q+m*U)*M_w_dot;
-Cs = Z_w*M_q - (Z_q+m*U)*M_w;
+lat.m = m;
+lat.Ixx = Ixx;
+lat.Izx = Ixz;
+lat.Izz = Izz;
+lat.Ue = U;
+lat.Yv = Y_v;
+lat.Yp = Y_p;
+lat.Yr = Y_r;
+lat.Lv = L_v;
+lat.Lp = L_p;
+lat.Lr = L_r;
+lat.Nv = N_v;
+lat.Np = N_p;
+lat.Nr = N_r;
+lat.Y_a = Y_dA;
+lat.L_a = L_dA;
+lat.N_a = N_dA;
+lat.Y_r = Y_dR;
+lat.L_r = Y_dR;
+lat.N_r = N_dR;
