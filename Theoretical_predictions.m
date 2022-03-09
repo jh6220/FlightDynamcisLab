@@ -27,7 +27,8 @@ W = (We+Wp+Wf);
 alt = 3000; % meter
 U = convvel(223,'kts','m/s');
 [~, ~, P, rho] = atmosisa(alt);
-T = 18454;
+T_sl = 18454;
+T = T_sl*(rho/1.225)^0.7;
 Vh = 0.6722;
 
 Cl = W/(0.5*rho*Sw*U^2);
