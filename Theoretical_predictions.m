@@ -230,5 +230,5 @@ lat.Y_a = Y_dA;
 lat.L_a = L_dA;
 lat.N_a = N_dA;
 lat.Y_r = Y_dR;
-lat.L_r = Y_dR;
+lat.L_r = L_dR;
 lat.N_r = N_dR;
