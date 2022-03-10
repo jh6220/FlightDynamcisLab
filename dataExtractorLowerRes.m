@@ -7,9 +7,10 @@ clc
 close all
 
 %%%%%INSERT THE FILENAME HERE%%%%%
-fname = 'sppo3.mat';
+fname = 'roll_test_velocitytest.mat';
 load(fname) %Load the file name
-data = sppo3;
+% data = sppo3;
+
 % data.Data = Datas;
 %Extract all the data
 vInd_kias   = data.Data(1:100:end,1); %Indicated Airspeed - Knots
